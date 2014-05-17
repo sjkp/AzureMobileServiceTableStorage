@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.Entity;
+﻿using System.Configuration;
 using System.Web.Http;
-using MobileService1.DataObjects;
-using MobileService1.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace MobileService1
@@ -18,12 +13,13 @@ namespace MobileService1
 
             // Use this class to set WebAPI configuration options
             HttpConfiguration config = ServiceConfig.Initialize(new ConfigBuilder(options));
-
+           
             // To display errors in the browser during development, uncomment the following
             // line. Comment it out again when you deploy your service for production use.
             // config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
-
- 
+            var constring = ConfigurationManager.AppSettings["AzureTable"];                
+           
+            new ApiServices(config).Settings.Connections.Add("AzureTable", new ConnectionSettings("AzureTable", constring));
         }
     }
 }
